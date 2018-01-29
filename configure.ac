@@ -133,6 +133,11 @@ AC_ARG_ENABLE([extended-rpc-tests],
     [use_extended_rpc_tests=$enableval],
     [use_extended_rpc_tests=no])
 
+AC_ARG_ENABLE([static-build],
+    AS_HELP_STRING([--enable-static-build],[enable statically linked build(default no)]),
+    [static_build=$enableval],
+    [static_build=no])
+
 AC_ARG_ENABLE([hardening],
   [AS_HELP_STRING([--disable-hardening],
   [do not attempt to harden the resulting executables (default is to harden)])],
@@ -539,7 +544,6 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
   [ AC_MSG_RESULT(no)]
 )
 CXXFLAGS="$TEMP_CXXFLAGS"
-
 LEVELDB_CPPFLAGS=
 LIBLEVELDB=
 LIBMEMENV=
@@ -739,6 +743,11 @@ else
     BITCOIN_QT_CHECK([AC_CHECK_LIB([qrencode], [main],[QR_LIBS=-lqrencode], [have_qrencode=no])])
     BITCOIN_QT_CHECK([AC_CHECK_HEADER([qrencode.h],, have_qrencode=no)])
   fi
+fi
+
+if test x$static_build = xyes; then
+    CXXFLAGS="$CXXFLAGS -static"
+    LIBS="-Wl,-Bstatic $LIBS"
 fi
 
 CXXFLAGS_TEMP="$CXXFLAGS"
@@ -955,4 +964,5 @@ echo "  CPPFLAGS      = $CPPFLAGS"
 echo "  CXX           = $CXX"
 echo "  CXXFLAGS      = $CXXFLAGS"
 echo "  LDFLAGS       = $LDFLAGS"
+echo "  static build  = $static_build"
 echo 
