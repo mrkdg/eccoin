@@ -411,7 +411,8 @@ SOURCES += \
     src/processtx.cpp \
     src/verifydb.cpp \
     src/ans/ans.cpp \
-    src/ans/ansrecord.cpp
+    src/ans/ansrecord.cpp \
+    src/rpc/rpcans.cpp
 
 
 
