@@ -299,7 +299,8 @@ HEADERS += \
     src/verifydb.h \
     src/rpc/events.h \
     src/ans/ans.h \
-    src/ans/ansrecord.h
+    src/ans/ansrecord.h \
+    src/service_leveldb.h
 
 
 # organize compiles of cpp files by section, this seems to be a logical order where the files lower down generally depend
@@ -412,7 +413,8 @@ SOURCES += \
     src/verifydb.cpp \
     src/ans/ans.cpp \
     src/ans/ansrecord.cpp \
-    src/rpc/rpcans.cpp
+    src/rpc/rpcans.cpp \
+    src/service_leveldb.cpp
 
 
 
