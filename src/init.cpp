@@ -7,6 +7,7 @@
 
 #include "addrman.h"
 #include "amount.h"
+#include "ans/ans.h"
 #include "chain/chain.h"
 #include "networks/networktemplate.h"
 #include "networks/netman.h"
@@ -62,6 +63,7 @@
 bool fShutdown = false;
 CWallet* pwalletMain = NULL;
 CNetworkManager* pnetMan = NULL;
+
 
 bool fFeeEstimatesInitialized = false;
 static const bool DEFAULT_PROXYRANDOMIZE = true;
@@ -1246,7 +1248,6 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                     break;
                 }
 
-                    //removeImpossibleChainTips();
                 {
                     uiInterface.InitMessage(_("Verifying blocks..."));
                     LogPrintf("Verifying blocks...");
@@ -1271,6 +1272,11 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
                     LogPrintf("verify db function %15dms\n", GetTimeMillis() - lastUpdate);
                     lastUpdate = GetTimeMillis();
                 }
+
+                /// once we have loaded the main chain, load the services
+                g_ans.reset();
+                g_ans.reset(new CServiceDB("ans", nBlockTreeDBCache, false, false));
+
             }
             catch (const std::exception& e)
             {
